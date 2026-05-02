@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const photos = [
   {
-    url: "/images/gallery/lecturing.jpeg",
+    url: "/images/gallery/lecturing.png",
     caption: "Advanced Mathematics Lecture",
     description: "Delivering lectures on stochastic processes and renewal theory at Skyline University Nigeria, engaging students with real-world applications.",
     tags: ["Mathematics", "Education", "Lecturer"]
@@ -56,7 +56,6 @@ export function PhotoGallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleCardClick = (index: number) => {
-    // Toggle active state - if same card, close it; if different, open it
     setActiveIndex(activeIndex === index ? null : index);
   };
 
@@ -104,11 +103,11 @@ export function PhotoGallery() {
                   isActive ? 'border-emerald-400/50' : 'group-hover:border-emerald-400/50'
                 }`} />
 
-                {/* Image */}
+                {/* Image - REMOVED grayscale, now bright and clear */}
                 <img
                   src={photo.url}
                   alt={photo.caption}
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-105"
                   loading="lazy"
                 />
 

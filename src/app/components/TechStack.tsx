@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const partners = [
   { name: "Bayero University Kano", abbr: "BUK" },
@@ -49,10 +49,10 @@ export function TechStack() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl mb-4">
+          <h2 className="text-4xl md:text-5xl mb-4 text-white">
             Technology <span className="text-emerald-400">Stack</span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
             Full-stack engineering with mathematical rigor
           </p>
         </motion.div>
@@ -67,12 +67,12 @@ export function TechStack() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="p-6 rounded-xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700 hover:border-emerald-400/50 transition-all duration-300 backdrop-blur-sm"
             >
-              <h3 className="text-lg mb-4 text-emerald-400">{stack.category}</h3>
+              <h3 className="text-lg mb-4 text-emerald-400 font-semibold">{stack.category}</h3>
               <div className="flex flex-wrap gap-2">
                 {stack.items.map((item) => (
                   <span
                     key={item}
-                    className="px-3 py-1.5 rounded-lg bg-slate-800/80 text-sm text-slate-300 border border-slate-700 hover:border-blue-500/50 hover:text-blue-400 transition-all duration-200"
+                    className="px-3 py-1.5 rounded-lg bg-slate-800/80 text-sm text-slate-200 border border-slate-700 hover:border-emerald-400/50 hover:text-emerald-400 transition-all duration-200"
                   >
                     {item}
                   </span>
@@ -88,7 +88,7 @@ export function TechStack() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="text-2xl text-center mb-8">
+          <h3 className="text-2xl text-center mb-8 text-white">
             Institutional <span className="text-emerald-400">Partners</span>
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -103,10 +103,10 @@ export function TechStack() {
               >
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700 group-hover:border-emerald-400/50 transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
                   <div className="text-center p-4">
-                    <div className="text-2xl font-mono text-slate-400 group-hover:text-emerald-400 transition-colors duration-300 mb-2">
+                    <div className="text-2xl font-mono text-slate-300 group-hover:text-emerald-400 transition-colors duration-300 mb-2">
                       {partner.abbr}
                     </div>
-                    <div className="text-xs text-slate-500 group-hover:text-slate-400 transition-colors duration-300 opacity-0 group-hover:opacity-100">
+                    <div className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors duration-300 opacity-0 group-hover:opacity-100">
                       {partner.name}
                     </div>
                   </div>

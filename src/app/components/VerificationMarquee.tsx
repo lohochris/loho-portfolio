@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Award, Shield, Code, Eye, X, Verified, Calendar, ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -138,7 +138,7 @@ export function VerificationMarquee() {
                 <h3 className="text-xl font-bold text-white mb-2">{selectedCert.name}</h3>
                 <p className="text-emerald-400 text-sm">{selectedCert.issuer}</p>
                 {selectedCert.date && (
-                  <div className="flex items-center gap-2 mt-2 text-slate-400 text-sm">
+                  <div className="flex items-center gap-2 mt-2 text-slate-300 text-sm">
                     <Calendar className="w-4 h-4" />
                     <span>Completed: {selectedCert.date}</span>
                   </div>
@@ -163,7 +163,7 @@ export function VerificationMarquee() {
               
               {selectedCert.verificationUrl && (
                 <div className="mt-6 p-4 bg-slate-800 rounded-lg">
-                  <p className="text-sm text-slate-400 mb-3 flex items-center gap-2">
+                  <p className="text-sm text-slate-300 mb-3 flex items-center gap-2">
                     <Verified className="w-4 h-4 text-emerald-400" />
                     Verify authenticity:
                   </p>
@@ -181,8 +181,8 @@ export function VerificationMarquee() {
               
               {selectedCert.certificateId && (
                 <div className="mt-4 p-3 bg-slate-800/50 rounded-lg">
-                  <p className="text-xs text-slate-500">
-                    Certificate ID: <span className="font-mono text-slate-400">{selectedCert.certificateId}</span>
+                  <p className="text-xs text-slate-400">
+                    Certificate ID: <span className="font-mono text-slate-300">{selectedCert.certificateId}</span>
                   </p>
                 </div>
               )}
@@ -199,10 +199,10 @@ export function VerificationMarquee() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-3xl md:text-4xl mb-2">
+          <h2 className="text-3xl md:text-4xl mb-2 text-white">
             Professional <span className="text-emerald-400">Certifications</span>
           </h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-300">
             Click any credential to view or verify
           </p>
         </motion.div>
@@ -243,12 +243,12 @@ export function VerificationMarquee() {
                         <Icon className="w-6 h-6 text-emerald-400" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-sm font-semibold mb-1 group-hover:text-emerald-400 transition-colors duration-300">
+                        <h3 className="text-sm font-semibold mb-1 text-white group-hover:text-emerald-400 transition-colors duration-300">
                           {cert.name}
                         </h3>
-                        <p className="text-xs text-slate-400">{cert.issuer}</p>
+                        <p className="text-xs text-slate-300">{cert.issuer}</p>
                         {cert.date && (
-                          <p className="text-xs text-slate-500 mt-1">{cert.date}</p>
+                          <p className="text-xs text-slate-400 mt-1">{cert.date}</p>
                         )}
                         {cert.award && (
                           <span className="inline-block mt-2 text-xs px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-400">
@@ -259,7 +259,7 @@ export function VerificationMarquee() {
                       <div className="w-2 h-2 rounded-full bg-emerald-400 opacity-50 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300" />
                     </div>
                     <div className="mt-3 pt-3 border-t border-slate-700/50">
-                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                      <span className="text-xs text-slate-400 flex items-center gap-1">
                         <Eye className="w-3 h-3" />
                         Click to view certificate
                       </span>

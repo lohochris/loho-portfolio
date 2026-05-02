@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const testimonials = [
   {
@@ -97,12 +97,118 @@ const testimonials = [
 
 export function Testimonials() {
   const [isPaused, setIsPaused] = useState(false);
-  
-  // Triple the testimonials for seamless marquee
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  // Check if mobile view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // For mobile: show static grid instead of marquee
+  if (isMobile) {
+    return (
+      <section className="py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950">
+        <div className="max-w-7xl mx-auto mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h2 className="text-3xl md:text-4xl mb-3 text-white">
+              What <span className="text-emerald-400">Colleagues Say</span>
+            </h2>
+            <p className="text-sm text-slate-300 max-w-2xl mx-auto px-4">
+              Testimonials from academic peers, research collaborators, mentors, and students
+            </p>
+            <div className="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20">
+              <Star className="w-3 h-3 text-emerald-400 fill-emerald-400" />
+              <span className="text-xs text-emerald-400">{testimonials.length} Professional Recommendations</span>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Mobile Grid Layout - 1 column */}
+        <div className="grid grid-cols-1 gap-4 max-w-md mx-auto">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={testimonial.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className={`relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border transition-all duration-300 p-4 ${
+                activeIndex === index ? 'border-emerald-400/50' : 'border-slate-700/50'
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                {/* Avatar placeholder */}
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-blue-500 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-bold text-white">
+                    {testimonial.name.split(' ').map(n => n[0]).join('')}
+                  </span>
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between flex-wrap gap-1 mb-1">
+                    <h4 className="font-semibold text-white text-sm">{testimonial.name}</h4>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-400">
+                      {testimonial.relationship}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mb-2">{testimonial.role}</p>
+                  <div className="flex gap-0.5 mb-2">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-emerald-400 text-emerald-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed italic">
+                    "{testimonial.content.substring(0, 150)}..."
+                  </p>
+                  <button
+                    onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                    className="mt-2 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+                  >
+                    {activeIndex === index ? 'Show less' : 'Read more'}
+                  </button>
+                  
+                  {activeIndex === index && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="mt-2 pt-2 border-t border-slate-700/50"
+                    >
+                      <p className="text-xs text-slate-300 leading-relaxed italic">
+                        "{testimonial.content}"
+                      </p>
+                      <p className="text-[10px] text-slate-500 mt-2">{testimonial.institution}</p>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Mobile instruction */}
+        <div className="text-center mt-6">
+          <p className="text-[10px] text-slate-500">
+            👆 Tap "Read more" to see full testimonial
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  // Desktop Marquee View
   const infiniteTestimonials = [...testimonials, ...testimonials, ...testimonials];
-  
-  // Calculate total width for animation
-  const cardWidth = 396; // 380px card + 16px gap
+  const cardWidth = 396;
   const totalWidth = testimonials.length * cardWidth;
 
   return (
@@ -114,10 +220,10 @@ export function Testimonials() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <h2 className="text-4xl md:text-5xl mb-4">
+          <h2 className="text-4xl md:text-5xl mb-4 text-white">
             What <span className="text-emerald-400">Colleagues Say</span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
             Testimonials from academic peers, research collaborators, mentors, and students
           </p>
           <div className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-emerald-400/10 border border-emerald-400/20">
@@ -127,7 +233,7 @@ export function Testimonials() {
         </motion.div>
       </div>
 
-      {/* Marquee Container */}
+      {/* Desktop Marquee Container */}
       <div className="relative">
         <div className="overflow-hidden">
           <motion.div
@@ -153,34 +259,34 @@ export function Testimonials() {
                 className="flex-shrink-0"
                 style={{ width: "380px" }}
               >
-                <div className="relative h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 hover:border-emerald-400/50 transition-all duration-500 p-6 backdrop-blur-sm group flex flex-col">
+                <div className="relative h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 hover:border-emerald-400/50 transition-all duration-500 p-5 backdrop-blur-sm group flex flex-col">
                   {/* Quote icon */}
-                  <Quote className="absolute top-4 right-4 w-8 h-8 text-emerald-400/20 group-hover:text-emerald-400/30 transition-colors duration-300" />
+                  <Quote className="absolute top-3 right-3 w-6 h-6 text-emerald-400/20 group-hover:text-emerald-400/30 transition-colors duration-300" />
                   
                   {/* Relationship badge */}
-                  <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-xs text-emerald-400 mb-4 w-fit">
+                  <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-xs text-emerald-400 mb-3 w-fit">
                     {testimonial.relationship}
                   </div>
                   
                   {/* Rating stars */}
-                  <div className="flex gap-1 mb-4">
+                  <div className="flex gap-0.5 mb-3">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-emerald-400 text-emerald-400" />
+                      <Star key={i} className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
                     ))}
                   </div>
                   
-                  {/* Testimonial content - PROFESSIONAL JUSTIFIED TEXT ALIGNMENT */}
+                  {/* Testimonial content */}
                   <div className="flex-1 flex flex-col">
-                    <p className="text-slate-300 leading-relaxed mb-6 italic text-sm text-left">
+                    <p className="text-slate-200 leading-relaxed mb-4 italic text-sm text-left line-clamp-4">
                       "{testimonial.content}"
                     </p>
                   </div>
                   
-                  {/* Author info - always at bottom with left alignment */}
-                  <div className="border-t border-slate-700/50 pt-4 mt-auto">
-                    <p className="font-semibold text-emerald-400 text-left">{testimonial.name}</p>
-                    <p className="text-sm text-slate-400 text-left">{testimonial.role}</p>
-                    <p className="text-xs text-slate-500 text-left">{testimonial.institution}</p>
+                  {/* Author info */}
+                  <div className="border-t border-slate-700/50 pt-3 mt-auto">
+                    <p className="font-semibold text-emerald-400 text-left text-sm">{testimonial.name}</p>
+                    <p className="text-xs text-slate-300 text-left">{testimonial.role}</p>
+                    <p className="text-[10px] text-slate-400 text-left">{testimonial.institution}</p>
                   </div>
                 </div>
               </div>
@@ -188,15 +294,15 @@ export function Testimonials() {
           </motion.div>
         </div>
 
-        {/* Gradient overlays for fading effect */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none z-10" />
+        {/* Gradient overlays */}
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none z-10" />
       </div>
       
-      {/* Pause indicator - shows when hovered */}
+      {/* Pause indicator */}
       {isPaused && (
         <div className="text-center mt-6">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 text-xs text-slate-400">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 text-xs text-slate-300">
             ⏸️ Paused • Move mouse to resume scrolling
           </span>
         </div>

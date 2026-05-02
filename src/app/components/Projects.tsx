@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { ExternalLink, Shield, Lock, Globe, Activity, Calendar, Sparkles, Clock, Heart, Brain, TrendingUp } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 
@@ -85,6 +85,17 @@ const projects = [
 export function Projects() {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [visibleProjects, setVisibleProjects] = useState(6);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Lazy load more projects on scroll
   useEffect(() => {
@@ -104,24 +115,24 @@ export function Projects() {
   );
 
   return (
-    <section id="projects" className="py-24 px-6 relative">
+    <section id="projects" className="py-16 md:py-24 px-4 md:px-6 relative">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl mb-4">
+          <h2 className="text-3xl md:text-5xl mb-3 md:mb-4 text-white">
             Featured <span className="text-emerald-400">Projects</span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto px-4">
             Production-grade applications spanning privacy engineering, cybersecurity, healthcare innovation, and digital wellbeing
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {visibleProjectsList.map((project, index) => {
             const Icon = project.icon;
             const isFeatured = project.featured;
@@ -132,24 +143,25 @@ export function Projects() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.5) }}
                 className={`group relative ${
                   isFeatured ? 'md:col-span-1 lg:col-span-1' : ''
                 }`}
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
+                onMouseEnter={() => !isMobile && setHoveredProject(project.id)}
+                onMouseLeave={() => !isMobile && setHoveredProject(null)}
+                onClick={() => isMobile && setHoveredProject(hoveredProject === project.id ? null : project.id)}
               >
                 <div className="relative h-full bg-gradient-to-b from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 hover:border-emerald-400/50 transition-all duration-500 overflow-hidden backdrop-blur-sm">
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/0 via-emerald-400/0 to-blue-500/0 group-hover:from-emerald-400/5 group-hover:via-blue-500/5 group-hover:to-emerald-400/5 transition-all duration-500" />
 
-                  <div className="relative p-6 space-y-4">
+                  <div className="relative p-4 md:p-6 space-y-3 md:space-y-4">
                     <div className="flex items-start justify-between">
-                      <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700 group-hover:border-emerald-400/50 transition-all duration-300">
-                        <Icon className="w-6 h-6 text-emerald-400" />
+                      <div className="p-2 md:p-3 rounded-lg bg-slate-800/80 border border-slate-700 group-hover:border-emerald-400/50 transition-all duration-300">
+                        <Icon className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" />
                       </div>
                       <div className="flex gap-2">
                         {isFeatured && (
-                          <span className="px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-xs text-emerald-400">
+                          <span className="px-2 md:px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-xs text-emerald-400">
                             Featured
                           </span>
                         )}
@@ -157,15 +169,15 @@ export function Projects() {
                           <button 
                             className="p-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500/20 transition-all cursor-pointer"
                             aria-label="View AI strategy details"
-                            title="Click to view AI implementation strategy"
+                            title="Tap to view AI strategy"
                           >
                             <Sparkles className="w-3 h-3 text-blue-400" />
                           </button>
-                          {hoveredProject === project.id && (
+                          {(hoveredProject === project.id || (!isMobile && hoveredProject === project.id)) && (
                             <motion.div
                               initial={{ opacity: 0, y: 10, scale: 0.95 }}
                               animate={{ opacity: 1, y: 0, scale: 1 }}
-                              className="absolute top-full right-0 mt-2 w-72 p-3 rounded-lg bg-slate-900/95 backdrop-blur-xl border border-blue-500/30 shadow-xl z-50"
+                              className="absolute top-full right-0 mt-2 w-64 md:w-72 p-3 rounded-lg bg-slate-900/95 backdrop-blur-xl border border-blue-500/30 shadow-xl z-50"
                             >
                               <div className="text-xs text-blue-400 mb-1 font-mono">🤖 AI Strategy:</div>
                               <p className="text-xs text-slate-300 leading-relaxed">{project.aiStrategy}</p>
@@ -176,44 +188,49 @@ export function Projects() {
                     </div>
 
                     <div>
-                      <h3 className="text-xl mb-2 group-hover:text-emerald-400 transition-colors duration-300">
+                      <h3 className="text-lg md:text-xl mb-1 md:mb-2 text-white group-hover:text-emerald-400 transition-colors duration-300">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-slate-400 leading-relaxed">
+                      <p className="text-sm text-slate-300 leading-relaxed">
                         {project.description}
                       </p>
                     </div>
 
                     {/* Show metrics for Billy AI project */}
                     {'metrics' in project && project.metrics && (
-                      <div className="grid grid-cols-3 gap-2 pt-2">
-                        <div className="text-center p-2 rounded-lg bg-slate-800/50">
+                      <div className="grid grid-cols-3 gap-1 md:gap-2 pt-2">
+                        <div className="text-center p-1 md:p-2 rounded-lg bg-slate-800/50">
                           <TrendingUp className="w-3 h-3 text-red-400 mx-auto mb-1" />
                           <p className="text-xs font-bold text-red-400">{project.metrics.victimizationRate}</p>
-                          <p className="text-[10px] text-slate-500">Victimization</p>
+                          <p className="text-[8px] md:text-[10px] text-slate-500">Victimization</p>
                         </div>
-                        <div className="text-center p-2 rounded-lg bg-slate-800/50">
+                        <div className="text-center p-1 md:p-2 rounded-lg bg-slate-800/50">
                           <Heart className="w-3 h-3 text-amber-400 mx-auto mb-1" />
                           <p className="text-xs font-bold text-amber-400">{project.metrics.healthImpact}</p>
-                          <p className="text-[10px] text-slate-500">Health Impact</p>
+                          <p className="text-[8px] md:text-[10px] text-slate-500">Health Impact</p>
                         </div>
-                        <div className="text-center p-2 rounded-lg bg-slate-800/50">
+                        <div className="text-center p-1 md:p-2 rounded-lg bg-slate-800/50">
                           <Brain className="w-3 h-3 text-emerald-400 mx-auto mb-1" />
                           <p className="text-xs font-bold text-emerald-400">{project.metrics.passivityParadox}</p>
-                          <p className="text-[10px] text-slate-500">Passivity</p>
+                          <p className="text-[8px] md:text-[10px] text-slate-500">Passivity</p>
                         </div>
                       </div>
                     )}
 
-                    <div className="flex flex-wrap gap-2">
-                      {project.stack.map((tech) => (
+                    <div className="flex flex-wrap gap-1.5 md:gap-2">
+                      {project.stack.slice(0, isMobile ? 3 : 4).map((tech) => (
                         <span
                           key={tech}
-                          className="px-3 py-1 rounded-full bg-slate-800 text-xs text-slate-300 font-mono border border-slate-700"
+                          className="px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-slate-800 text-xs text-slate-300 font-mono border border-slate-700"
                         >
                           {tech}
                         </span>
                       ))}
+                      {project.stack.length > (isMobile ? 3 : 4) && (
+                        <span className="px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-slate-800 text-xs text-slate-400 font-mono border border-slate-700">
+                          +{project.stack.length - (isMobile ? 3 : 4)}
+                        </span>
+                      )}
                     </div>
 
                     {project.hosting === "Render" && (
@@ -227,12 +244,12 @@ export function Projects() {
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 transition-all duration-300 group/btn cursor-pointer"
+                      className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 transition-all duration-300 group/btn cursor-pointer"
                       aria-label={`View live demo of ${project.title}`}
                       title={`Open ${project.title} live demo in new tab`}
                     >
-                      <span className="text-sm">Live Demo</span>
-                      <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300" />
+                      <span className="text-xs md:text-sm">Live Demo</span>
+                      <ExternalLink className="w-3 h-3 md:w-4 md:h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300" />
                     </a>
                   </div>
 
@@ -244,11 +261,20 @@ export function Projects() {
         </div>
 
         {visibleProjects < projects.length && (
-          <div className="text-center mt-12">
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-slate-800/50 border border-slate-700">
+          <div className="text-center mt-8 md:mt-12">
+            <div className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-lg bg-slate-800/50 border border-slate-700">
               <Brain className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <span className="text-sm text-slate-400">Loading more projects...</span>
+              <span className="text-xs md:text-sm text-slate-400">Loading more projects...</span>
             </div>
+          </div>
+        )}
+
+        {/* Mobile instruction hint */}
+        {isMobile && (
+          <div className="text-center mt-6">
+            <p className="text-[10px] text-slate-500">
+              👆 Tap on the sparkle icon to see AI strategy
+            </p>
           </div>
         )}
       </div>

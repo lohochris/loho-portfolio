@@ -1,4 +1,57 @@
-@import 'tailwindcss' source(none);
+@import 'tailwindcss';
 @source '../**/*.{js,ts,jsx,tsx}';
-
 @import 'tw-animate-css';
+
+/* ============================================
+   CUSTOM UTILITIES FOR VISUAL ENHANCEMENTS
+   ============================================ */
+
+@layer utilities {
+  /* Card hover glow effect */
+  .card-hover-glow {
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  }
+
+  .card-hover-glow:hover {
+    box-shadow: 0 0 30px rgba(52, 211, 153, 0.15);
+    border-color: rgba(52, 211, 153, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Shimmer border effect */
+  .shimmer-border {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(52, 211, 153, 0.3) 50%, 
+      transparent 100%);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .shimmer-border:hover::before {
+    opacity: 1;
+    animation: shimmer 2s infinite;
+  }
+}
+
+/* ============================================
+   KEYFRAMES FOR ANIMATIONS
+   ============================================ */
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

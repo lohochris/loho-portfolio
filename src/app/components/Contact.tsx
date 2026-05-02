@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Linkedin, Github, MapPin, Send, Loader2, CheckCircle2, Copy, Check } from "lucide-react";
 
 const contactMethods = [
@@ -45,6 +45,16 @@ const contactMethods = [
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [copied, setCopied] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const copyEmail = (email: string) => {
     navigator.clipboard.writeText(email);
@@ -83,7 +93,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 relative overflow-hidden bg-slate-950">
+    <section id="contact" className="py-16 md:py-24 px-4 md:px-6 relative overflow-hidden bg-slate-950">
       {/* Background Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(52,211,153,0.05),transparent_50%)]" />
 
@@ -92,20 +102,20 @@ export function Contact() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl mb-4 font-bold tracking-tight text-white">
+          <h2 className="text-3xl md:text-5xl mb-3 md:mb-4 font-bold tracking-tight text-white">
             Let's <span className="text-emerald-400">Connect</span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+          <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto px-4">
             Available for research collaboration, full-stack consulting, or just a technical chat.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
-          {/* Contact Details - Taking 2 columns */}
-          <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-xl font-semibold mb-6 text-slate-200 px-2">Reach Out Directly</h3>
+        <div className="grid lg:grid-cols-5 gap-6 md:gap-8 items-start">
+          {/* Contact Details */}
+          <div className="lg:col-span-2 space-y-3 md:space-y-4">
+            <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-white px-2">Reach Out Directly</h3>
             {contactMethods.map((method, index) => {
               const Icon = method.icon;
               return (
@@ -116,34 +126,34 @@ export function Contact() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="group relative flex items-center gap-4 p-4 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-emerald-400/30 hover:bg-slate-900/60 transition-all duration-300">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${method.color} bg-opacity-10 group-hover:scale-105 transition-transform`}>
-                      <Icon className="w-5 h-5 text-white" />
+                  <div className="group relative flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-emerald-400/30 hover:bg-slate-900/60 transition-all duration-300">
+                    <div className={`p-2 md:p-3 rounded-xl bg-gradient-to-br ${method.color} bg-opacity-10 group-hover:scale-105 transition-transform flex-shrink-0`}>
+                      <Icon className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-0.5">{method.label}</p>
+                      <p className="text-[8px] md:text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-0.5">{method.label}</p>
                       {method.href ? (
                         <a 
                           href={method.href} 
                           target={method.isExternal ? "_blank" : undefined} 
                           rel={method.isExternal ? "noopener noreferrer" : undefined}
-                          className="text-slate-200 font-medium hover:text-emerald-400 transition-colors block truncate"
+                          className="text-slate-200 text-xs md:text-sm font-medium hover:text-emerald-400 transition-colors block truncate"
                         >
                           {method.displayText}
                         </a>
                       ) : (
-                        <p className="text-slate-200 font-medium truncate">{method.displayText}</p>
+                        <p className="text-slate-200 text-xs md:text-sm font-medium truncate">{method.displayText}</p>
                       )}
                     </div>
 
                     {method.canCopy && (
                       <button 
                         onClick={() => copyEmail(method.value)}
-                        className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-emerald-400 hover:bg-slate-700 transition-all"
+                        className="p-1.5 md:p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-emerald-400 hover:bg-slate-700 transition-all flex-shrink-0 cursor-pointer"
                         title="Copy to clipboard"
                       >
-                        {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                        {copied ? <Check className="w-3 h-3 md:w-4 md:h-4" /> : <Copy className="w-3 h-3 md:w-4 md:h-4" />}
                       </button>
                     )}
                   </div>
@@ -152,41 +162,41 @@ export function Contact() {
             })}
           </div>
 
-          {/* Form - Taking 3 columns */}
+          {/* Form Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="lg:col-span-3 p-8 rounded-[2rem] bg-slate-900/30 border border-slate-800/50 backdrop-blur-sm shadow-2xl"
+            className="lg:col-span-3 p-5 md:p-8 rounded-2xl md:rounded-[2rem] bg-slate-900/30 border border-slate-800/50 backdrop-blur-sm shadow-2xl"
           >
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Full Name</label>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <div className="space-y-1 md:space-y-2">
+                <label className="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Full Name</label>
                 <input
                   name="name"
                   type="text"
                   required
-                  className="w-full px-5 py-4 rounded-xl bg-slate-950/50 border border-slate-800 focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 outline-none transition-all text-slate-200"
+                  className="w-full px-4 md:px-5 py-3 md:py-4 rounded-xl bg-slate-950/50 border border-slate-800 focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 outline-none transition-all text-slate-200 text-sm md:text-base"
                   placeholder="John Doe"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Email Address</label>
+              <div className="space-y-1 md:space-y-2">
+                <label className="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Email Address</label>
                 <input
                   name="email"
                   type="email"
                   required
-                  className="w-full px-5 py-4 rounded-xl bg-slate-950/50 border border-slate-800 focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 outline-none transition-all text-slate-200"
+                  className="w-full px-4 md:px-5 py-3 md:py-4 rounded-xl bg-slate-950/50 border border-slate-800 focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 outline-none transition-all text-slate-200 text-sm md:text-base"
                   placeholder="john@example.com"
                 />
               </div>
-              <div className="md:col-span-2 space-y-2">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Message</label>
+              <div className="md:col-span-2 space-y-1 md:space-y-2">
+                <label className="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Message</label>
                 <textarea
                   name="message"
-                  rows={5}
+                  rows={isMobile ? 4 : 5}
                   required
-                  className="w-full px-5 py-4 rounded-xl bg-slate-950/50 border border-slate-800 focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 outline-none resize-none transition-all text-slate-200"
+                  className="w-full px-4 md:px-5 py-3 md:py-4 rounded-xl bg-slate-950/50 border border-slate-800 focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 outline-none transition-all text-slate-200 text-sm md:text-base resize-none"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -195,24 +205,24 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={status === "loading" || status === "success"}
-                  className={`group w-full relative overflow-hidden px-8 py-5 rounded-xl font-bold text-sm uppercase tracking-[0.2em] transition-all duration-500 ${
+                  className={`group w-full relative overflow-hidden px-6 md:px-8 py-4 md:py-5 rounded-xl font-bold text-xs md:text-sm uppercase tracking-[0.2em] transition-all duration-500 cursor-pointer ${
                     status === "success" 
                     ? "bg-emerald-500 text-white" 
                     : "bg-emerald-400 text-slate-950 hover:bg-emerald-300 hover:shadow-[0_0_30px_rgba(52,211,153,0.3)]"
                   } disabled:opacity-70 disabled:cursor-not-allowed`}
                 >
-                  <div className="flex items-center justify-center gap-3 relative z-10">
+                  <div className="flex items-center justify-center gap-2 md:gap-3 relative z-10">
                     {status === "loading" ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
                     ) : status === "success" ? (
                       <>
-                        <CheckCircle2 className="w-5 h-5" />
-                        <span>Message Dispatched</span>
+                        <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" />
+                        <span>Message Sent</span>
                       </>
                     ) : (
                       <>
-                        <Send className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                        <span>Initialize Contact</span>
+                        <Send className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                        <span>Send Message</span>
                       </>
                     )}
                   </div>
@@ -224,9 +234,9 @@ export function Contact() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="mt-4 text-red-400 text-xs text-center font-medium"
+                      className="mt-3 md:mt-4 text-red-400 text-xs text-center font-medium"
                     >
-                      Transmission failed. Please verify connection and retry.
+                      Failed to send message. Please try again or email me directly.
                     </motion.p>
                   )}
                 </AnimatePresence>

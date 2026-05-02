@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const testimonials = [
   {
     id: 1,
-    name: "Dr. Mai Marta Ajayi",
+    name: "Dr Olumide Abraham Ajayi",
     role: "Former Dean, SAMSS",
     institution: "Skyline University Nigeria",
     content: "Christopher is a rare gem in academia. His ability to translate complex mathematical concepts into engaging lectures is exceptional. He brings both theoretical rigor and practical relevance to every classroom. His dedication to student success and innovative teaching methods have significantly improved our department's mathematics pass rates.",
@@ -62,7 +62,7 @@ const testimonials = [
     name: "Mrs. Folashade Fashikin",
     role: "Colleague",
     institution: "Skyline University Nigeria",
-    content: "Working alongside Christopher in the mathematics department has been inspiring. He brings energy, innovation, and genuine care for students to every faculty meeting and course coordination. His interdisciplinary approach, connecting mathematics to software and security, has influenced how I teach my own courses.",
+    content: "Working alongside Christopher in the department has been inspiring. He brings energy, innovation, and genuine care for students to every faculty meeting and course coordination. His interdisciplinary approach, connecting mathematics to software and security, has influenced how I teach my own courses.",
     rating: 5,
     relationship: "Colleague"
   },

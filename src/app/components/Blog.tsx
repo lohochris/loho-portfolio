@@ -35,7 +35,7 @@ const renderLatex = (text: string): string => {
   return processedText;
 };
 
-// Function to render display math $$...$$
+// Function to render display math
 const renderDisplayLatex = (text: string): React.ReactNode[] | null => {
   if (!text) return null;
   
@@ -152,12 +152,12 @@ export function Blog() {
                     {row.map((cell, cellIdx) => (
                       <td key={cellIdx} className="px-4 py-3 text-sm text-slate-300">
                         {cell}
-                       </td>
+                      </td>
                     ))}
-                   </tr>
+                  </tr>
                 ))}
               </tbody>
-             </table>
+            </table>
           </div>
         );
         inTable = false;
@@ -199,7 +199,7 @@ export function Blog() {
         continue;
       }
       
-      if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+      if (line.trim().startsWith('- ') || line.trim().startsWith('• ')) {
         const listItem = line.trim().substring(2);
         if (!inList) {
           inList = true;
@@ -226,7 +226,7 @@ export function Blog() {
         if (/^\d+\.\s/.test(line.trim())) {
           const listItem = line.trim().replace(/^\d+\.\s/, '');
           currentList.push({ type: 'numbered', content: listItem });
-        } else if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+        } else if (line.trim().startsWith('- ') || line.trim().startsWith('• ')) {
           const listItem = line.trim().substring(2);
           currentList.push({ type: 'bullet', content: listItem });
         }
@@ -402,7 +402,7 @@ export function Blog() {
 
               <div className="flex flex-wrap gap-1.5 mb-3">
                 {post.tags.slice(0, 3).map(tag => (
-                  <span key={tag} className="text-xs text-slate-500">#{tag}</span>
+                  <span key={tag} className="text-xs text-slate-500">{tag}</span>
                 ))}
               </div>
 
@@ -501,7 +501,7 @@ export function Blog() {
                   <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t border-slate-700">
                     {selectedPost.tags.map(tag => (
                       <span key={tag} className="px-3 py-1 rounded-full bg-slate-800/50 text-xs md:text-sm text-slate-300 border border-slate-700 hover:border-emerald-400/50 transition-colors">
-                        #{tag}
+                        {tag}
                       </span>
                     ))}
                   </div>

@@ -93,15 +93,15 @@ IoT devices are increasingly targeted by sophisticated cyber attacks, yet their 
 
 The network architecture consists of:
 
-1. **CNN Layer**: Feature extraction from network traffic
+1. CNN Layer: Feature extraction from network traffic
    $$\\mathbf{h}_t^{cnn} = \\text{ReLU}(\\mathbf{W}_{cnn} * \\mathbf{x}_t + \\mathbf{b}_{cnn})$$
 
-2. **BiLSTM Layer**: Temporal dependency modeling
+2. BiLSTM Layer: Temporal dependency modeling
    $$\\overrightarrow{\\mathbf{h}_t} = \\text{LSTM}(\\mathbf{x}_t, \\overrightarrow{\\mathbf{h}_{t-1}})$$
    $$\\overleftarrow{\\mathbf{h}_t} = \\text{LSTM}(\\mathbf{x}_t, \\overleftarrow{\\mathbf{h}_{t+1}})$$
    $$\\mathbf{h}_t = [\\overrightarrow{\\mathbf{h}_t}; \\overleftarrow{\\mathbf{h}_t}]$$
 
-3. **Attention Mechanism**: Focus on salient features
+3. Attention Mechanism: Focus on salient features
    $$\\alpha_t = \\frac{\\exp(\\mathbf{u}_t^\\top \\mathbf{u}_w)}{\\sum_s \\exp(\\mathbf{u}_s^\\top \\mathbf{u}_w)}$$
 
 ### Model Optimization Results
@@ -127,7 +127,7 @@ The network architecture consists of:
 | Model | Accuracy | Latency (ms) | Size (MB) |
 |-------|----------|--------------|-----------|
 | Standard CNN-LSTM | 96.2% | 156 | 8.7 |
-| **Ours (CNN-BiLSTM)** | **98.7%** | **47** | **2.3** |
+| Ours (CNN-BiLSTM) | 98.7% | 47 | 2.3 |
 | LightGBM | 94.1% | 89 | 4.1 |
 
 ## Conclusion
@@ -153,9 +153,9 @@ This research presents an adaptive zero-trust security framework enhanced by art
 
 Zero-trust architecture operates on the principle "never trust, always verify." Our framework extends this to multi-cloud environments with:
 
-- **Micro-segmentation** of cloud resources
-- **Continuous monitoring** of all network traffic
-- **Dynamic policy adjustment** based on risk scores
+- Micro-segmentation of cloud resources
+- Continuous monitoring of all network traffic
+- Dynamic policy adjustment based on risk scores
 
 ## AI-Enhanced Threat Detection
 
@@ -245,13 +245,13 @@ $$V_t(s) = \\min_{a \\in \\mathcal{A}} \\left\\{ C(s,a) + \\gamma \\sum_{s'} P(s
 |-------------|----------------|------------------------|
 | Fixed Interval | Baseline | Baseline |
 | Condition-Based | 23% | 31% |
-| **Opportunistic (Proposed)** | **41%** | **58%** |
+| Opportunistic (Proposed) | 41% | 58% |
 
 ## Current Status
 
-- **Methodology:** Complete
-- **Numerical Implementation:** In progress
-- **Expected Completion:** Q2 2026`,
+- Methodology: Complete
+- Numerical Implementation: In progress
+- Expected Completion: Q2 2026`,
     date: "January 10, 2026",
     readTime: "8 min read",
     category: "Working Paper",
@@ -273,10 +273,10 @@ This working paper presents a computational framework for AI-driven hematologic 
 ### Multi-Modal Data Integration
 
 The framework combines:
-- **Morphological signals** from peripheral blood smears
-- **Genomic data** (DNA-seq, RNA-seq)
-- **Proteomic profiles** (mass spectrometry)
-- **Clinical features** (patient demographics, lab values)
+- Morphological signals from peripheral blood smears
+- Genomic data (DNA-seq, RNA-seq)
+- Proteomic profiles (mass spectrometry)
+- Clinical features (patient demographics, lab values)
 
 ### Deep Learning Architecture
 
@@ -293,9 +293,9 @@ $$\\mathbf{y} = f_{\\text{MLP}}\\left([\\mathbf{h}_{\\text{CNN}}; \\mathbf{h}_{\
 
 ## Current Status
 
-- **Data Collection:** Complete (n=1,247 patients)
-- **Model Training:** In progress
-- **Expected Completion:** Q3 2026`,
+- Data Collection: Complete (n=1,247 patients)
+- Model Training: In progress
+- Expected Completion: Q3 2026`,
     date: "December 15, 2025",
     readTime: "10 min read",
     category: "Working Paper",
@@ -325,9 +325,9 @@ This submitted article provides a comprehensive analysis of the evolution of "Ya
 
 ### Emerging Techniques
 
-1. **AI-Generated Content**: Deepfake videos and voice cloning
-2. **Social Engineering 2.0**: Multi-channel psychological manipulation
-3. **Cryptocurrency Exploitation**: Fake investment platforms
+1. AI-Generated Content: Deepfake videos and voice cloning
+2. Social Engineering 2.0: Multi-channel psychological manipulation
+3. Cryptocurrency Exploitation: Fake investment platforms
 
 ### Victim Demographics
 
@@ -349,10 +349,10 @@ This submitted article provides a comprehensive analysis of the evolution of "Ya
 
 ## Policy Recommendations
 
-1. **Enhanced Digital Literacy**: National cyber hygiene curriculum
-2. **Cross-Border Collaboration**: International task force
-3. **Real-Time Transaction Monitoring**: AI-powered fraud detection
-4. **Victim Support Systems**: Reporting and recovery mechanisms
+1. Enhanced Digital Literacy: National cyber hygiene curriculum
+2. Cross-Border Collaboration: International task force
+3. Real-Time Transaction Monitoring: AI-powered fraud detection
+4. Victim Support Systems: Reporting and recovery mechanisms
 
 ## Conclusion
 

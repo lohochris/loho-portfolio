@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const photos = [
   {
-    url: "/images/gallery/lecturing.png",
+    url: "/images/gallery/lecturing1.jpeg",
     caption: "Advanced Mathematics Lecture",
     description: "Delivering lectures on stochastic processes and renewal theory at Skyline University Nigeria, engaging students with real-world applications.",
     tags: ["Mathematics", "Education", "Lecturer"]
